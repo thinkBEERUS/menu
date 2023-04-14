@@ -11,6 +11,7 @@ import {
 import { Fastfood, LocalBar } from "@mui/icons-material";
 
 import "./App.css";
+import ItemModal from "./ItemModal";
 
 function App() {
   const [menu, setMenu] = useState("food");
@@ -142,9 +143,20 @@ function App() {
   };
 
   return (
-    <Box>
-      <Typography variant="h2" align="center">
-        Restaurant Menu
+    <Box sx={{ bgcolor: "#333", color: "#fff", top: 0 }}>
+      <Typography
+        variant="h6"
+        align="center"
+        style={{
+          fontWeight: "bolder",
+          bgcolor: "#333",
+          color: "#fff",
+          textTransform: "uppercase",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+      >
+        Oukraal Demo
       </Typography>
       <Grid container spacing={3}>
         {menu === "food" &&
@@ -161,6 +173,8 @@ function App() {
                         p: 2,
                         border: "1px solid lightgrey",
                         borderRadius: 2,
+                        bgcolor: "#333",
+                        color: "#fff",
                       }}
                       onClick={() => handleItemClick(item)}
                     >
@@ -188,6 +202,8 @@ function App() {
                         p: 2,
                         border: "1px solid lightgrey",
                         borderRadius: 2,
+                        bgcolor: "#333",
+                        color: "#fff",
                       }}
                       onClick={() => handleItemClick(item)}
                     >
@@ -202,61 +218,52 @@ function App() {
             </Grid>
           ))}
       </Grid>
+      {selectedItem && (
+        <ItemModal
+          modal={modal}
+          setModal={setModal}
+          selectedItem={selectedItem}
+        />
+      )}
       <Box
         sx={{
-          position: "fixed",
+          position: "sticky",
           bottom: 0,
           left: 0,
           right: 0,
           zIndex: 9999,
-          backgroundColor: "#fff",
+          bgcolor: "#333",
+          color: "#fff",
           display: "flex",
           justifyContent: "space-around",
-          my: 3,
+          margin: 0,
         }}
       >
-        <Button onClick={(event) => handleMenuChange(event, "food")}>
+        <Button
+          onClick={(event) => handleMenuChange(event, "food")}
+          sx={{
+            color: "black",
+            borderRadius: 50,
+            backgroundColor: "white",
+            margin: "5px",
+          }}
+        >
           <Fastfood sx={{ mr: 1 }} />
           Food
         </Button>
-        <Button onClick={(event) => handleMenuChange(event, "drinks")}>
+        <Button
+          onClick={(event) => handleMenuChange(event, "drinks")}
+          sx={{
+            color: "black",
+            borderRadius: 50,
+            backgroundColor: "white",
+            margin: "5px",
+          }}
+        >
           <LocalBar sx={{ mr: 1 }} />
           Drinks
         </Button>
       </Box>
-      {selectedItem && (
-        <Modal
-          open={modal}
-          onClose={() => setModal(false)}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 400,
-              bgcolor: "background.paper",
-              border: "2px solid #000",
-              boxShadow: 24,
-              p: 4,
-            }}
-          >
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {selectedItem.name}
-            </Typography>
-            <Typography
-              id="modal-modal-description"
-              sx={{ mt: 2 }}
-              color="text.secondary"
-            >
-              {selectedItem.description}
-            </Typography>
-          </Box>
-        </Modal>
-      )}
     </Box>
   );
 }
